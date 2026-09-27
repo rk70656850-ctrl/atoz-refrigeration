@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A TO Z Refrigeration Service Center</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #07090e;
+            --card-bg: #121824;
+            --card-border: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --input-bg: #090d16;
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 24px 16px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        /* --- Modern Lock Screen --- */
+        .lock-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #111827 0%, #07090e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .lock-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+        }
+
+        .lock-badge {
+            background: var(--accent-glow);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .lock-card h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .lock-contacts {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .pin-box-wrapper {
+            margin: 20px 0 24px 0;
+        }
+
+        .pin-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 14px;
+            font-weight: 700;
+        }
+
+        .pin-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+
+        /* --- Header --- */
+        header {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shop-info h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .shop-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- Soft Status Indicator Light --- */
+        .status-indicator-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .status-dot.online {
+            background-color: var(--success);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+        }
+
+        .status-dot.offline {
+            background-color: var(--danger);
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+
+        .header-right-group {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .contact-details {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        .contact-item i {
+            font-size: 18px;
+            color: var(--accent);
+            background: var(--accent-glow);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .settings-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 16px;
+        }
+        .settings-btn:hover { background: var(--accent-glow); color: var(--accent); border-color: var(--accent); }
+
+        /* --- Dashboard Stats Counters --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-icon.blue { background: rgba(56, 189, 248, 0.1); color: var(--accent); }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .stat-icon.red { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .stat-icon.green { background: rgba(34, 197, 94, 0.1); color: var(--success); }
+
+        .stat-info h3 { font-size: 20px; font-weight: 700; color: var(--text-primary); }
+        .stat-info p { font-size: 12px; color: var(--text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- Cards & Forms --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 12px;
+        }
+
+        .section-title span { display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: var(--accent); }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-field-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 12px 14px 12px 38px;
+            border-radius: var(--radius-sm);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        input[type="date"] { padding-left: 14px; }
+        textarea { padding-left: 14px; resize: vertical; height: 46px; }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .step-divider {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px dashed var(--card-border);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            border: none;
+            padding: 12px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background-color: var(--accent); color: #07090e; font-weight: 700; }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-success { background-color: var(--success); color: white; }
+        .btn-success:hover { opacity: 0.9; }
+        .btn-secondary { background-color: var(--card-border); color: var(--text-primary); }
+        .btn-secondary:hover { background: #263548; }
+        .btn-danger { background-color: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .btn-danger:hover { background-color: var(--danger); color: white; }
+
+        .btn-icon {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-icon:hover { background: var(--accent-glow); color: var(--accent); border-color: var(--accent); }
+        .btn-icon.delete:hover { background: rgba(239, 68, 68, 0.15); color: var(--danger); border-color: var(--danger); }
+        .btn-icon.whatsapp:hover { background: rgba(34, 197, 94, 0.15); color: var(--success); border-color: var(--success); }
+
+        /* --- Filters & Action Bar --- */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover { border-color: var(--accent); color: var(--text-primary); }
+        .filter-tab.active { background: var(--accent); color: #07090e; border-color: var(--accent); font-weight: 700; }
+
+        .search-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 240px;
+            max-width: 320px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 38px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+        }
+
+        /* --- Table --- */
+        .table-container {
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            white-space: nowrap;
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 18px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(18, 24, 36, 0.7);
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--card-border);
+            vertical-align: middle;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: rgba(56, 189, 248, 0.02); }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-yes { background: rgba(34, 197, 94, 0.1); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.2); }
+        .status-no { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .due-text { font-weight: 700; color: var(--danger); }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            padding: 28px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 1024px) {
+            header { flex-direction: column; gap: 16px; align-items: flex-start; }
+            .header-right-group { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+            .contact-details { gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Modern Lock Screen -->
+<div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+        <span class="lock-badge"><i class="ri-shield-keyhole-line"></i> Secure Portal</span>
+        <h1>A TO Z Refrigeration Service Center</h1>
+        <div class="lock-contacts">
+            <span><i class="ri-phone-fill" style="color:var(--accent);"></i> 9262319796</span>
+            <span><i class="ri-smartphone-fill" style="color:var(--accent);"></i> 7667247457</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 20px;">App access ke liye 4-digit PIN enter karein</p>
+        
+        <div class="pin-box-wrapper">
+            <input type="password" id="passcodePinInput" class="pin-input" maxlength="4" placeholder="••••" inputmode="numeric">
+        </div>
+        
+        <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 14px;" onclick="verifyPasscode()">
+            <i class="ri-lock-unlock-line"></i> Unlock Application
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="shop-info">
+                <h1>A TO Z Refrigeration Service Center</h1>
+                <p><i class="ri-map-pin-2-fill" style="color:var(--accent);"></i> Raghunathpur</p>
+            </div>
+            <!-- Soft Status Indicator Light -->
+            <div class="status-indicator-box" id="statusIndicatorBox" title="Internet Connection Status">
+                <div class="status-dot offline" id="statusDot"></div>
+                <span id="statusText">Checking...</span>
+            </div>
+        </div>
+
+        <div class="header-right-group">
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="ri-phone-fill"></i>
+                    <div>
+                        <span style="font-size:10px; color:var(--text-secondary); display:block; text-transform:uppercase;">Helpline 1</span>
+                        <strong>9262319796</strong>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="ri-smartphone-fill"></i>
+                    <div>
+                        <span style="font-size:10px; color:var(--text-secondary); display:block; text-transform:uppercase;">Helpline 2</span>
+                        <strong>7667247457</strong>
+                    </div>
+                </div>
+            </div>
+            <!-- Settings & Lock Button -->
+            <div class="header-btns">
+                <button class="settings-btn" onclick="openRecycleBinModal()" title="Recycle Bin">
+                    <i class="ri-delete-bin-line"></i>
+                </button>
+                <button class="settings-btn" onclick="lockAppManually()" title="Lock App Now">
+                    <i class="ri-lock-line"></i>
+                </button>
+                <button class="settings-btn" onclick="openSettingsModal()" title="Settings & Security">
+                    <i class="ri-settings-3-line"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Dashboard Quick Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="ri-file-list-3-line"></i></div>
+            <div class="stat-info">
+                <h3 id="statTotal">0</h3>
+                <p>Total Complaints</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon orange"><i class="ri-time-line"></i></div>
+            <div class="stat-info">
+                <h3 id="statPending">0</h3>
+                <p>Pending Works</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon red"><i class="ri-money-rupee-circle-line"></i></div>
+            <div class="stat-info">
+                <h3 id="statDue">₹0</h3>
+                <p>Market Dues</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="ri-checkbox-circle-line"></i></div>
+            <div class="stat-info">
+                <h3 id="statCompleted">0</h3>
+                <p>Completed Works</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Two-Part Form Card -->
+    <div class="card">
+        <div class="section-title">
+            <span id="formTitle"><i class="ri-file-add-line"></i> New Complaint & Service Entry</span>
+            <button id="cancelEditBtn" class="btn btn-secondary" style="display: none; padding: 4px 10px; font-size: 11px;" onclick="cancelEdit()">Cancel Edit</button>
+        </div>
+        
+        <form id="entryForm" onsubmit="handleFormSubmit(event)">
+            <input type="hidden" id="editIndex" value="">
+            
+            <!-- PART 1 -->
+            <div style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Step 1: Customer & Complaint Details</div>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Customer Name</label>
+                    <div class="input-field-wrapper">
+                        <i class="ri-user-3-line"></i>
+                        <input type="text" id="name" placeholder="Rahul Kumar" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Mobile Number (Duplicate Check)</label>
+                    <div class="input-field-wrapper">
+                        <i class="ri-smartphone-line"></i>
+                        <input type="text" id="mobNumber" placeholder="9876543210" onblur="checkExistingCustomer()" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Address</label>
+                    <div class="input-field-wrapper">
+                        <i class="ri-map-pin-line"></i>
+                        <input type="text" id="address" placeholder="Main Road, Raghunathpur">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Complain Date</label>
+                    <input type="date" id="complainDate" required>
+                </div>
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <label>Complain / Issue Details</label>
+                    <textarea id="complainDetails" placeholder="Jaise: AC cooling nahi kar raha hai / Gas leakage..."></textarea>
+                </div>
+            </div>
+
+            <hr class="step-divider">
+
+            <!-- PART 2 -->
+            <div style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Step 2: Service & Payment Details</div>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Service Done Status</label>
+                    <select id="serviceDone">
+                        <option value="No">Pending (No)</option>
+                        <option value="Yes">Completed (Yes)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Service Done Date</label>
+                    <input type="date" id="serviceDoneDate">
+                </div>
+                <div class="input-group">
+                    <label>Total Payment Collection (₹)</label>
+                    <div class="input-field-wrapper">
+                        <i class="ri-money-rupee-circle-line"></i>
+                        <input type="number" id="totalAmount" placeholder="Total Bill Amount (e.g. 1500)">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Payment Status</label>
+                    <select id="paymentStatus" onchange="toggleDueField()">
+                        <option value="Full Paid">Full Payment Paid</option>
+                        <option value="Due">Payment Due / Pending</option>
+                    </select>
+                </div>
+                <div class="input-group" id="dueAmountGroup" style="display: none;">
+                    <label>Due Amount (₹)</label>
+                    <div class="input-field-wrapper">
+                        <i class="ri-hand-coin-line"></i>
+                        <input type="number" id="dueAmount" placeholder="Kitna paisa baaki hai?">
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 24px; text-align: right;">
+                <button type="submit" id="submitBtn" class="btn btn-primary">
+                    <i class="ri-save-3-line"></i> Save Entry
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Actions & Filter Bar -->
+    <div class="action-bar">
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="setFilter('All', this)">All Records</button>
+            <button class="filter-tab" onclick="setFilter('Pending', this)">Pending Work</button>
+            <button class="filter-tab" onclick="setFilter('Due', this)">Payment Due</button>
+            <button class="filter-tab" onclick="setFilter('Completed', this)">Completed</button>
+        </div>
+        
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; flex: 1; justify-content: flex-end;">
+            <div class="search-wrapper">
+                <i class="ri-search-line"></i>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search name or mobile..." onkeyup="filterAndRender()">
+            </div>
+            <button class="btn btn-success" onclick="exportToCSV()">
+                <i class="ri-file-excel-2-line"></i> Excel
+            </button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Customer Name</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th>Complain Date</th>
+                    <th>Complain / Issue</th>
+                    <th>Service Status</th>
+                    <th>Service Date</th>
+                    <th>Total Amount</th>
+                    <th>Payment Status</th>
+                    <th>Due Amount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="recordTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+    <div class="modal-card">
+        <div class="section-title">
+            <span><i class="ri-settings-4-line" style="color:var(--accent);"></i> App Settings & Security</span>
+            <button class="btn-icon" onclick="closeSettingsModal()"><i class="ri-close-line"></i></button>
+        </div>
+        
+        <!-- GREEN GOOGLE SHEET SYNC -->
+        <div style="background: rgba(34, 197, 94, 0.06); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 20px;">
+            <div style="font-size: 13px; font-weight: 700; color: var(--success); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                <i class="ri-file-excel-line" style="font-size: 16px;"></i> Google Sheet Cloud Sync
+            </div>
+            <div class="input-group" style="margin-bottom: 12px;">
+                <label style="color: var(--text-primary);">Google Web App URL</label>
+                <input type="text" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+            </div>
+            <button type="button" class="btn" style="background-color: var(--success); color: white; width: 100%; justify-content: center; padding: 10px;" onclick="fetchDataFromGoogleSheet()">
+                <i class="ri-cloud-download-line"></i> Save Google URL
+            </button>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 14px;">
+            <label>Current Passcode (PIN)</label>
+            <input type="text" id="currentPasscodeDisplay" readonly style="background: var(--input-bg); color: var(--success); font-weight:700;">
+        </div>
+
+        <div class="input-group" style="margin-bottom: 20px;">
+            <label>Change Passcode (New 4-Digit PIN)</label>
+            <input type="password" id="newPasscodeInput" maxlength="4" placeholder="Naya 4 digit PIN daalein" inputmode="numeric">
+        </div>
+
+        <hr class="step-divider" style="margin: 18px 0;">
+
+        <div style="font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+            <i class="ri-database-2-line"></i> Local File Backup & Restore
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="exportDataBackup()">
+                <i class="ri-download-cloud-line"></i> Export Backup
+            </button>
+            <label class="btn btn-secondary" style="flex: 1; justify-content: center; margin: 0; cursor: pointer;">
+                <i class="ri-upload-cloud-line"></i> Import Backup
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importDataBackup(event)">
+            </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="btn btn-secondary" onclick="closeSettingsModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Recycle Bin Modal -->
+<div class="modal-overlay" id="recycleBinModal">
+    <div class="modal-card" style="max-width: 800px;">
+        <div class="section-title">
+            <span><i class="ri-delete-bin-2-line" style="color:var(--danger);"></i> Recycle Bin (Deleted Records)</span>
+            <button class="btn-icon" onclick="closeRecycleBinModal()"><i class="ri-close-line"></i></button>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 15px;">Delete kelele records ithe astat. Tumhi tyana parat restore karu shakta kinva permanent delete karu shakta.</p>
+        
+        <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Mobile</th>
+                        <th>Complain Details</th>
+                        <th>Deleted Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="recycleBinTableBody"></tbody>
+            </table>
+        </div>
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <button class="btn btn-danger" onclick="clearRecycleBin()">Empty Recycle Bin</button>
+            <button class="btn btn-secondary" onclick="closeRecycleBinModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const STORAGE_KEY = 'atoz_twopart_records_v10';
+    const TRASH_KEY = 'atoz_trash_records_v10';
+    
+    let records = [];
+    let trashRecords = [];
+
+    try {
+        records = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        trashRecords = JSON.parse(localStorage.getItem(TRASH_KEY)) || [];
+    } catch(e) {
+        records = [];
+        trashRecords = [];
+    }
+
+    let currentFilter = 'All';
+    document.getElementById('complainDate').valueAsDate = new Date();
+
+    window.addEventListener('DOMContentLoaded', () => {
+        let savedPin = localStorage.getItem('atoz_app_passcode');
+        if (!savedPin) {
+            localStorage.setItem('atoz_app_passcode', '1234');
+        }
+        cleanupOldTrash();
+    });
+
+    function verifyPasscode() {
+        const enteredPin = document.getElementById('passcodePinInput').value.trim();
+        const correctPin = localStorage.getItem('atoz_app_passcode') || '1234';
+
+        if (enteredPin === correctPin) {
+            document.getElementById('lockScreen').style.display = 'none';
+            document.getElementById('passcodePinInput').value = '';
+        } else {
+            alert('Galat Passcode! Kripya sahi PIN daalein.');
+            document.getElementById('passcodePinInput').value = '';
+        }
+    }
+
+    document.getElementById('passcodePinInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') verifyPasscode();
+    });
+
+    function lockAppManually() {
+        document.getElementById('lockScreen').style.display = 'flex';
+        document.getElementById('passcodePinInput').focus();
+    }
+
+    function checkExistingCustomer() {
+        const mob = document.getElementById('mobNumber').value.trim();
+        const editIndex = document.getElementById('editIndex').value;
+        
+        if (mob.length >= 10) {
+            const foundIndex = records.findIndex(r => r.mobNumber === mob && (editIndex === "" || records[editIndex].mobNumber !== mob));
+            if (foundIndex !== -1) {
+                const existing = records[foundIndex];
+                const confirmUpdate = confirm(`⚠️ Yeh Mobile Number (${mob}) pehle se registered hai!\n\nCustomer: ${existing.name}\nAddress: ${existing.address || '-'}\n\nKya aap chahte hain ki is purane customer ki details auto-fill ho jayein?`);
+                if (confirmUpdate) {
+                    document.getElementById('name').value = existing.name || '';
+                    document.getElementById('address').value = existing.address || '';
+                }
+            }
+        }
+    }
+
+    function updateOnlineStatus() {
+        const dot = document.getElementById('statusDot');
+        const text = document.getElementById('statusText');
+        if (!dot || !text) return;
+        
+        if (navigator.onLine) {
+            dot.className = "status-dot online";
+            text.innerText = "Online";
+        } else {
+            dot.className = "status-dot offline";
+            text.innerText = "Offline";
+        }
+    }
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    setInterval(updateOnlineStatus, 5000);
+    updateOnlineStatus();
+
+    function openSettingsModal() {
+        const savedUrl = localStorage.getItem('atoz_g_script_url') || '';
+        const currentPin = localStorage.getItem('atoz_app_passcode') || '1234';
+        
+        document.getElementById('scriptUrlInput').value = savedUrl;
+        document.getElementById('currentPasscodeDisplay').value = currentPin;
+        document.getElementById('newPasscodeInput').value = '';
+        document.getElementById('settingsModal').style.display = 'flex';
+    }
+
+    function closeSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function openRecycleBinModal() {
+        renderTrashTable();
+        document.getElementById('recycleBinModal').style.display = 'flex';
+    }
+
+    function closeRecycleBinModal() {
+        document.getElementById('recycleBinModal').style.display = 'none';
+    }
+
+    function saveSettings() {
+        const url = document.getElementById('scriptUrlInput').value.trim();
+        const newPin = document.getElementById('newPasscodeInput').value.trim();
+
+        localStorage.setItem('atoz_g_script_url', url);
+
+        if (newPin !== '') {
+            if (newPin.length !== 4 || isNaN(newPin)) {
+                alert('Passcode sirf 4 digits ka number hona chahiye!');
+                return;
+            }
+            localStorage.setItem('atoz_app_passcode', newPin);
+            alert('Settings aur Naya Passcode successfully save ho gaya hai!');
+        } else {
+            alert('Settings successfully save ho gayi hain!');
+        }
+
+        closeSettingsModal();
+    }
+
+    function fetchDataFromGoogleSheet() {
+        const url = document.getElementById('scriptUrlInput').value.trim();
+        if (!url || !url.startsWith("http")) {
+            alert('Kripya pehle sahi Google Web App URL enter karein!');
+            return;
+        }
+        localStorage.setItem('atoz_g_script_url', url);
+        alert('Google Sheet URL successfully save ho gaya hai!');
+    }
+
+    function exportDataBackup() {
+        const backupData = {
+            records: records,
+            trash: trashRecords,
+            passcode: localStorage.getItem('atoz_app_passcode') || '1234',
+            googleUrl: localStorage.getItem('atoz_g_script_url') || '',
+            exportDate: new Date().toISOString()
+        };
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
+        let downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `AtoZ_Backup_${new Date().toISOString().slice(0,10)}.json`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+    }
+
+    function importDataBackup(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const parsed = JSON.parse(e.target.result);
+                if (parsed.records && Array.isArray(parsed.records)) {
+                    records = parsed.records;
+                    if(parsed.trash && Array.isArray(parsed.trash)) trashRecords = parsed.trash;
+                    saveToStorage();
+                    if (parsed.passcode) localStorage.setItem('atoz_app_passcode', parsed.passcode);
+                    if (parsed.googleUrl) localStorage.setItem('atoz_g_script_url', parsed.googleUrl);
+                    
+                    filterAndRender();
+                    alert('Data backup successfully restore ho gaya hai!');
+                    closeSettingsModal();
+                } else {
+                    alert('Invalid backup file format!');
+                }
+            } catch (err) {
+                alert('Backup file read karne me error aayi hai.');
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function saveToStorage() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            localStorage.setItem(TRASH_KEY, JSON.stringify(trashRecords));
+            updateStats();
+        } catch(e) {
+            console.error("Storage error", e);
+        }
+    }
+
+    function cleanupOldTrash() {
+        const now = new Date().getTime();
+        const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+        trashRecords = trashRecords.filter(item => {
+            let deleteTime = new Date(item.deletedAt || now).getTime();
+            return (now - deleteTime) < thirtyDays;
+        });
+        localStorage.setItem(TRASH_KEY, JSON.stringify(trashRecords));
+    }
+
+    function toggleDueField() {
+        const paymentStatus = document.getElementById('paymentStatus').value;
+        const dueGroup = document.getElementById('dueAmountGroup');
+        if (paymentStatus === 'Due') {
+            dueGroup.style.display = 'block';
+        } else {
+            dueGroup.style.display = 'none';
+            document.getElementById('dueAmount').value = '';
+        }
+    }
+
+    function updateStats() {
+        const total = records.length;
+        const pending = records.filter(r => r.serviceDone === 'No').length;
+        const completed = records.filter(r => r.serviceDone === 'Yes').length;
+        const totalDue = records.reduce((sum, r) => sum + (r.paymentStatus === 'Due' ? Number(r.dueAmount || 0) : 0), 0);
+
+        document.getElementById('statTotal').innerText = total;
+        document.getElementById('statPending').innerText = pending;
+        document.getElementById('statCompleted').innerText = completed;
+        document.getElementById('statDue').innerText = '₹' + totalDue.toLocaleString();
+    }
+
+    function setFilter(filterType, element) {
+        currentFilter = filterType;
+        document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+        element.classList.add('active');
+        filterAndRender();
+    }
+
+    function filterAndRender() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+        
+        const filtered = records.filter(r => {
+            const matchesSearch = (r.name && r.name.toLowerCase().includes(searchQuery)) || 
+                                  (r.mobNumber && r.mobNumber.toLowerCase().includes(searchQuery));
+            
+            if (currentFilter === 'Pending') return matchesSearch && r.serviceDone === 'No';
+            if (currentFilter === 'Due') return matchesSearch && r.paymentStatus === 'Due';
+            if (currentFilter === 'Completed') return matchesSearch && r.serviceDone === 'Yes';
+            return matchesSearch;
+        });
+
+        renderTable(filtered);
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('recordTableBody');
+        
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="12" style="text-align: center; color: var(--text-secondary); padding: 40px;">
+                <i class="ri-inbox-archive-line" style="font-size: 36px; opacity: 0.5;"></i><br>
+                No records found.
+            </td></tr>`;
+            return;
+        }
+
+        let html = '';
+        data.forEach((r) => {
+            const realIndex = records.indexOf(r);
+            const isDone = r.serviceDone === 'Yes';
+            let statusBadge = isDone 
+                ? `<span class="status-badge status-yes">Yes</span>` 
+                : `<span class="status-badge status-no">No</span>`;
+
+            let paymentBadge = r.paymentStatus === 'Full Paid' 
+                ? `<span style="color: var(--success); font-weight:600;">Full Paid</span>` 
+                : `<span class="due-text">Due</span>`;
+
+            let waMsg = encodeURIComponent(`Hello ${r.name || ''}, A TO Z Refrigeration Service Center se message hai. Aapka bill ₹${r.totalAmount || 0} tha, jisme se ₹${r.dueAmount || 0} payment due/baaki hai. Kripya jald bhugtan karein.`);
+            let waLink = `https://wa.me/91${r.mobNumber || ''}?text=${waMsg}`;
+
+            html += `<tr>
+                <td style="color: var(--text-secondary);">#${realIndex + 1}</td>
+                <td style="font-weight: 600; color: var(--accent);">${r.name || ''}</td>
+                <td>${r.mobNumber || ''}</td>
+                <td>${r.address || '-'}</td>
+                <td>${r.complainDate || '-'}</td>
+                <td style="white-space: normal; max-width: 200px;">${r.complainDetails || '-'}</td>
+                <td>${statusBadge}</td>
+                <td>${r.serviceDoneDate || '-'}</td>
+                <td style="font-weight: 600;">₹${Number(r.totalAmount || 0).toLocaleString()}</td>
+                <td>${paymentBadge}</td>
+                <td class="due-text">${r.paymentStatus === 'Due' ? '₹' + Number(r.dueAmount || 0).toLocaleString() : '-'}</td>
+                <td>
+                    <div style="display: flex; gap: 6px;">
+                        <a href="${waLink}" target="_blank" class="btn-icon whatsapp" title="Send WhatsApp Reminder">
+                            <i class="ri-whatsapp-line"></i>
+                        </a>
+                        <button class="btn-icon" onclick="editRecord(${realIndex})" title="Edit Record">
+                            <i class="ri-pencil-line"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteRecord(${realIndex})" title="Delete">
+                            <i class="ri-delete-bin-7-line"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function renderTrashTable() {
+        const tbody = document.getElementById('recycleBinTableBody');
+
+        if(trashRecords.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 30px;">Recycle Bin is empty.</td></tr>`;
+            return;
+        }
+
+        let html = '';
+        trashRecords.forEach((item, index) => {
+            html += `<tr>
+                <td style="font-weight: 600; color: var(--text-primary);">${item.name || ''}</td>
+                <td>${item.mobNumber || ''}</td>
+                <td>${item.complainDetails || '-'}</td>
+                <td style="color: var(--text-secondary);">${item.deletedAt ? item.deletedAt.slice(0, 10) : '-'}</td>
+                <td>
+                    <div style="display: flex; gap: 6px;">
+                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="restoreRecord(${index})">Restore</button>
+                        <button class="btn btn-danger" style="padding: 4px 10px; font-size: 11px;" onclick="permanentDelete(${index})">Delete</button>
+                    </div>
+                </td>
+            </tr>`;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function deleteRecord(index) {
+        if (confirm('Kya aap is record ko Recycle Bin me bhej na chahte hain?')) {
+            let removed = records.splice(index, 1)[0];
+            removed.deletedAt = new Date().toISOString();
+            trashRecords.push(removed);
+            saveToStorage();
+            filterAndRender();
+        }
+    }
+
+    function restoreRecord(index) {
+        let restored = trashRecords.splice(index, 1)[0];
+        delete restored.deletedAt;
+        records.push(restored);
+        saveToStorage();
+        filterAndRender();
+        renderTrashTable();
+    }
+
+    function permanentDelete(index) {
+        if (confirm('Hamesha ke liye delete karna hai? Yeh wapas nahi aayega.')) {
+            trashRecords.splice(index, 1);
+            saveToStorage();
+            renderTrashTable();
+        }
+    }
+
+    function clearRecycleBin() {
+        if (confirm('Recycle Bin poori tarah khali karni hai?')) {
+            trashRecords = [];
+            saveToStorage();
+            renderTrashTable();
+        }
+    }
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        
+        const editIndex = document.getElementById('editIndex').value;
+        const name = document.getElementById('name').value.trim();
+        const mobNumber = document.getElementById('mobNumber').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const complainDate = document.getElementById('complainDate').value;
+        const complainDetails = document.getElementById('complainDetails').value.trim();
+        
+        const serviceDone = document.getElementById('serviceDone').value;
+        const serviceDoneDate = document.getElementById('serviceDoneDate').value;
+        const totalAmount = document.getElementById('totalAmount').value || 0;
+        const paymentStatus = document.getElementById('paymentStatus').value;
+        const dueAmount = paymentStatus === 'Due' ? document.getElementById('dueAmount').value : 0;
+
+        if (!name || !mobNumber) {
+            alert('Please fill out Customer Name and Mobile Number.');
+            return;
+        }
+
+        const entryData = {
+            sn: records.length + 1,
+            name, mobNumber, address, complainDate, complainDetails,
+            serviceDone, serviceDoneDate, totalAmount, paymentStatus, dueAmount
+        };
+
+        if (editIndex === "") {
+            records.push(entryData);
+            sendDataToGoogleSheet(entryData);
+        } else {
+            records[editIndex] = entryData;
+            cancelEdit();
+        }
+
+        saveToStorage();
+        filterAndRender();
+        document.getElementById('entryForm').reset();
+        document.getElementById('complainDate').valueAsDate = new Date();
+        toggleDueField();
+    }
+
+    function sendDataToGoogleSheet(data) {
+        const GOOGLE_SCRIPT_URL = localStorage.getItem('atoz_g_script_url') || '';
+        if (GOOGLE_SCRIPT_URL.startsWith("http")) {
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).catch(err => console.log("Google sync error: ", err));
+        }
+    }
+
+    function editRecord(index) {
+        const r = records[index];
+        if (!r) return;
+        document.getElementById('editIndex').value = index;
+        document.getElementById('name').value = r.name || '';
+        document.getElementById('mobNumber').value = r.mobNumber || '';
+        document.getElementById('address').value = r.address || '';
+        document.getElementById('complainDate').value = r.complainDate || '';
+        document.getElementById('complainDetails').value = r.complainDetails || '';
+        
+        document.getElementById('serviceDone').value = r.serviceDone || 'No';
+        document.getElementById('serviceDoneDate').value = r.serviceDoneDate || '';
+        document.getElementById('totalAmount').value = r.totalAmount || '';
+        document.getElementById('paymentStatus').value = r.paymentStatus || 'Full Paid';
+        toggleDueField();
+        if(r.paymentStatus === 'Due') {
+            document.getElementById('dueAmount').value = r.dueAmount || '';
+        }
+
+        document.getElementById('formTitle').innerHTML = `<i class="ri-pencil-line"></i> Edit Record #${index + 1}`;
+        document.getElementById('submitBtn').innerHTML = `<i class="ri-refresh-line"></i> Update Entry`;
+        document.getElementById('cancelEditBtn').style.display = 'inline-block';
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function cancelEdit() {
+        document.getElementById('editIndex').value = '';
+        document.getElementById('entryForm').reset();
+        document.getElementById('complainDate').valueAsDate = new Date();
+        toggleDueField();
+        document.getElementById('formTitle').innerHTML = `<i class="ri-file-add-line"></i> New Complaint & Service Entry`;
+        document.getElementById('submitBtn').innerHTML = `<i class="ri-save-3-line"></i> Save Entry`;
+        document.getElementById('cancelEditBtn').style.display = 'none';
+    }
+
+    function exportToCSV() {
+        if (records.length === 0) {
+            alert('Export karne ke liye koi data nahi hai!');
+            return;
+        }
+        let csv = "Sn. No,Customer Name,Mobile Number,Address,Complain Date,Complain Details,Service Done,Service Date,Total Amount,Payment Status,Due Amount\n";
+        records.forEach((r, index) => {
+            const escape = (field) => `"${(field || '').toString().replace(/"/g, '""')}"`;
+            csv += `${index + 1},${escape(r.name)},${escape(r.mobNumber)},${escape(r.address)},${escape(r.complainDate)},${escape(r.complainDetails)},${escape(r.serviceDone)},${escape(r.serviceDoneDate)},${r.totalAmount || 0},${escape(r.paymentStatus)},${r.dueAmount || 0}\n`;
+        });
+        
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        let link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "AtoZ_Refrigeration_Jobs.csv");
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    updateStats();
+    filterAndRender();
+</script>
+
+</body>
+</html>
